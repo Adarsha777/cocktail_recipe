@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Combo&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="style.css">
+	<title>Cocktail Recipe</title>
+	
+
+		
+</head>
+<body>
+		<div id="drinksWrapper" />
+	<script type="text/javascript">
+			fetchDrinks().then((res)=>{
+				generateDrinkHTML(res?.drinks);
+			})
+		  	async function fetchDrinks() {
+			    let rawData = await fetch(
+			      "https://www.thecocktaildb.com/api/json/v1/1/random.php"
+			    );
+			    return rawData.json();
+  			}
+  			function generateDrinkHTML(drinks) {
+  				console.log(drinks)
+  				drinks.forEach(item=>{
+			    let target=document.getElementById('drinksWrapper');
+			    let drinkDivWrap=document.createElement('div');
+			    drinkDivWrap.innerHTML=
+			    `<div class='drinkWrapper'>
+				    <fieldset>
+				    		<legend>
+								<h1>
+									${item.strDrink}
+								</h1>
+							</legend>
+							<img loading='lazy' src=${item.strDrinkThumb} />
+							<div class='drinkInstruction'>
+								${item.strInstructions}
+							</div>
+							<h3 style="margin:0">Ingredients</h4>
+							<div class="ingrWrapper">
+								
+
+								<div>${item.strIngredient1||"Gin"} ${item.strMeasure1||"1 oz"}</div>
+								<div>${item.strIngredient2||"Tequila"}  ${item.strMeasure2||"1 oz"}</div>
+								<div>${item.strIngredient3||"Vodka"} ${item.strMeasure3||"1 oz"}</div>
+								<div>${item.strIngredient4||"White rum"} ${item.strMeasure4||"1 oz"}</div>
+								<div>${item.strIngredient5||"Triple Sec"} ${item.strMeasure5||"1 oz"}</div>
+								<div>${item.strIngredient6||"Cherry Grenadine"} ${item.strMeasure6||"1 oz"}</div>
+								<div>${item.strIngredient7||"Sweet and sour"} ${item.strMeasure7||"1 oz"}</div>
+								<div>${item.strIngredient8||"Club soda"} ${item.strMeasure8||"3 oz"}</div>
+								
+							</div>
+					</fieldset>
+				</div>`
+  				target.appendChild(drinkDivWrap); 
+  				})
+  			}
+	</script>
+	<div class="buttonWrapper">
+		<button onclick="window.location.reload()">Fetch new drink</button>
+	</div>
+
+</body>
+</html>
